@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema(
         delete ret.password;
         return ret;
       },
-      virtuals: true,
+      //virtuals: true,
     },
   }
 );
@@ -45,9 +45,14 @@ const UserSchema = new mongoose.Schema(
 //     }
 // });
 UserSchema.pre('save', async function (next) {
-  //Para encriptar contraseñas antes de crear o actualizar usuarios
+  //Para encriptar contraseñas antes de crear usuarios
   const user = this;
   user.password = await bcrypt.hash(user.password, 9);
+  next();
+});
+UserSchema.pre('updateOne', async function (next) {
+  const user = this;
+  user._update.password = await bcrypt.hash(user._update.password, 9);
   next();
 });
 const User = mongoose.model('User', UserSchema);

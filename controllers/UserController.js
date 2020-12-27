@@ -20,14 +20,12 @@ const UserController = {
   },
   async update(req, res) {
     try {
-      const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-      });
-      //Gracias al new: true devuelve el usuario tras modificarlo, si no devuelve el anterior
+      const result = await User.updateOne({ _id: req.params.id }, req.body);
+      const user = await User.findById(req.params.id);
       if (!user) {
         return res.send({ message: 'User nof found in DB' });
       }
-      res.send(user);
+      res.send({ result, user });
     } catch (error) {
       console.error(error);
       res.status(500).send({
@@ -115,7 +113,7 @@ const UserController = {
             token: tokenHandler.createToken(user),
           });
         } else {
-          return response.json({
+          return res.json({
             success: false,
             message: 'passwords do not match',
           });
@@ -125,6 +123,45 @@ const UserController = {
       console.error(error);
       res.status(500).send({
         message: 'There was a problem when trying to log in',
+        error,
+      });
+    }
+  },
+  async getProfile(req, res) {
+    try {
+      const user = await User.findById(req.user);
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to get your profile',
+        error,
+      });
+    }
+  },
+  async updateProfile(req, res) {
+    try {
+      const result = await User.updateOne({ _id: req.user }, req.body);
+      res.send(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to update your profile',
+        error,
+      });
+    }
+  },
+  async deleteProfile(req, res) {
+    try {
+      const user = await User.findByIdAndDelete(req.user);
+      res.send({
+        message: 'Profile succesfully deleted from DB',
+        user,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to delete your profile',
         error,
       });
     }

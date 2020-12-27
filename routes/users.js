@@ -1,13 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/UserController');
+const auth = require('../middlewares/auth');
+const role = require('../middlewares/role');
 
 /* GET users listing. */
-router.post('/', UserController.register);
-router.get('/', UserController.getAll);
-router.get('/:id', UserController.getById);
-router.put('/:id', UserController.update);
-router.delete('/:id', UserController.delete);
-router.get('/email/:email', UserController.getByEmail);
+router.post('/register', UserController.register);
+router.post('/login', UserController.login);
+router.get('/profile', auth.isAuth, UserController.getProfile);
+router.put('/profile', auth.isAuth, UserController.updateProfile);
+router.delete('/profile', auth.isAuth, UserController.deleteProfile);
+router.get('/all', auth.isAuth, role.isAdmin, UserController.getAll);
+router.get('/id/:id', auth.isAuth, role.isAdmin, UserController.getById);
+router.get(
+  '/email/:email',
+  auth.isAuth,
+  role.isAdmin,
+  UserController.getByEmail
+);
+router.put('/id/:id', auth.isAuth, role.isAdmin, UserController.update);
+router.delete('/id/:id', auth.isAuth, role.isAdmin, UserController.delete);
 
 module.exports = router;
