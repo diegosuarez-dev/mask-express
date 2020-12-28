@@ -4,7 +4,6 @@ const UserController = require('../controllers/UserController');
 const auth = require('../middlewares/auth');
 const role = require('../middlewares/role');
 
-/* GET users listing. */
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 router.get('/profile', auth.isAuth, UserController.getProfile);
