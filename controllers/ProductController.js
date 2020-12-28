@@ -13,6 +13,97 @@ const ProductController = {
       });
     }
   },
+  async getByCategory(req, res) {
+    try {
+      const products = await Product.find({
+        category: req.body.category,
+      }).exec();
+      if (!products) {
+        return res.send({
+          message: 'There are no products to list in this category',
+        });
+      }
+      res.send(products);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to get the products',
+        error,
+      });
+    }
+  },
+  async getByType(req, res) {
+    try {
+      const products = await Product.find({
+        type: req.body.type,
+      }).exec();
+      if (!products) {
+        return res.send({
+          message: 'There are no products to list in this type',
+        });
+      }
+      res.send(products);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to get the products',
+        error,
+      });
+    }
+  },
+  async getByProtectionLevel(req, res) {
+    try {
+      const products = await Product.find({
+        protection_level: req.body.protection_level,
+      }).exec();
+      if (!products) {
+        return res.send({
+          message: 'There are no products to list with this protection level',
+        });
+      }
+      res.send(products);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to get the products',
+        error,
+      });
+    }
+  },
+  async getByProductId(req, res) {
+    try {
+      const product = await Product.findById(req.params.id);
+      if (!product) {
+        return res.send({
+          message: 'The product was not found',
+        });
+      }
+      res.send(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to get the product',
+        error,
+      });
+    }
+  },
+  async getByProductName(req, res) {
+    try {
+      const product = await Product.findOne({ name: req.body.name });
+      if (!product) {
+        return res.send({
+          message: 'The product was not found',
+        });
+      }
+      res.send(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to get the product',
+        error,
+      });
+    }
+  },
   async createProduct(req, res) {
     try {
       const product = await Product.create({

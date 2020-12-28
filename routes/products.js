@@ -6,13 +6,36 @@ const role = require('../middlewares/role');
 
 //Get routes
 router.get('/all', auth.isAuth, role.isSeller, ProductController.getAll);
-router.get('/bycategory', auth.isAuth, role.isSeller);
-router.get('/byseller', auth.isAuth, role.isSeller);
-router.get('/byseller/bycategory', auth.isAuth, role.isSeller);
-router.get('/byname', auth.isAuth, role.isSeller);
-router.get('/byprice', auth.isAuth, role.isSeller);
-router.get('/bysales', auth.isAuth, role.isSeller);
-router.get('/bystock', auth.isAuth, role.isSeller);
+router.get(
+  '/bycategory',
+  auth.isAuth,
+  role.isSeller,
+  ProductController.getByCategory
+);
+router.get('/bytype', auth.isAuth, role.isSeller, ProductController.getByType);
+router.get(
+  '/byprotectionlevel',
+  auth.isAuth,
+  role.isSeller,
+  ProductController.getByProtectionLevel
+);
+router.get(
+  '/byproductid/:id',
+  auth.isAuth,
+  role.isSeller,
+  ProductController.getByProductId
+);
+router.get(
+  '/byname',
+  auth.isAuth,
+  role.isSeller,
+  ProductController.getByProductName
+);
+router.get('/byseller', auth.isAuth, role.isSeller); //TODO
+router.get('/byseller/bycategory', auth.isAuth, role.isSeller); //TODO
+router.get('/byprice', auth.isAuth, role.isSeller); //TODO
+router.get('/bysales', auth.isAuth, role.isSeller); //TODO
+router.get('/bystock', auth.isAuth, role.isSeller); //TODO
 
 //Post, put and delete routes
 router.post(
