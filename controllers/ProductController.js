@@ -56,7 +56,7 @@ const ProductController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: 'There was a problem when trying to get all products',
+        message: 'There was a problem when trying to get the products',
         error,
       });
     }

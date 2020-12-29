@@ -27,23 +27,13 @@ const UserSchema = new mongoose.Schema(
   },
   {
     toJSON: {
-      //Evitas que ciertos campos vayan al front, pero sí salen en consola (toObject)
       transform: (doc, ret) => {
         delete ret.password;
         return ret;
       },
-      //virtuals: true,
     },
   }
 );
-
-// UserSchema.virtual('role-email').get(function () { //para representar cálculos o valores que no se almacenan
-//     const user = this;
-//     return {
-//         role: user.role,
-//         email: user.email
-//     }
-// });
 UserSchema.pre('save', async function (next) {
   //Para encriptar contraseñas antes de crear usuarios
   const user = this;

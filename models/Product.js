@@ -49,6 +49,10 @@ const ProductSchema = new mongoose.Schema(
   }
 );
 
+ProductSchema.virtual('price-with-taxes').get(function () {
+  return this.price * 0.04;
+});
+
 ProductSchema.virtual('stock-value').get(function () {
   return this.price * this.stock;
 });
