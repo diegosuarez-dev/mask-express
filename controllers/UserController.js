@@ -1,4 +1,3 @@
-const { registerHelper } = require('hbs');
 const User = require('../models/User');
 const tokenHandler = require('../services/jwtTokenHandler');
 const bcrypt = require('bcryptjs');
@@ -23,7 +22,7 @@ const UserController = {
       const result = await User.updateOne({ _id: req.params.id }, req.body);
       const user = await User.findById(req.params.id);
       if (!user) {
-        return res.send({ message: 'User nof found in DB' });
+        return res.send({ message: 'User not found in DB' });
       }
       res.send({ result, user });
     } catch (error) {
@@ -38,7 +37,7 @@ const UserController = {
     try {
       const user = await User.findByIdAndDelete(req.params.id);
       if (!user) {
-        return res.send({ message: 'User nof found in DB' });
+        return res.send({ message: 'User not found in DB' });
       }
       res.send({
         message: 'User succesfully deleted from DB',
@@ -83,9 +82,9 @@ const UserController = {
     try {
       const user = await User.create(req.body);
       res.status(201).send({
-        user,
-        token: tokenHandler.createToken(user),
         message: 'User succesfully created',
+        token: tokenHandler.createToken(user),
+        user,
       });
     } catch (error) {
       console.error(error);
@@ -115,7 +114,7 @@ const UserController = {
         } else {
           return res.json({
             success: false,
-            message: 'passwords do not match',
+            message: 'Passwords do not match',
           });
         }
       });
