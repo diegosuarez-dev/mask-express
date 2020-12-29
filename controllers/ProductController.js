@@ -3,103 +3,60 @@ const Product = require('../models/Product');
 const ProductController = {
   async getAll(req, res) {
     try {
-      const products = await Product.find();
+      let filters = {};
+      let sortedBy = {};
+      if (req.body.product_id) {
+        filters._id = req.body.product_id;
+      }
+      if (req.body.name) {
+        filters.name = { $regex: req.body.name };
+      }
+      if (req.body.category) {
+        filters.category = req.body.category;
+      }
+      if (req.body.type) {
+        filters.type = req.body.type;
+      }
+      if (req.body.protection_level) {
+        filters.protection_level = req.body.protection_level;
+      }
+      if (req.body.seller_id) {
+        filters.seller_id = req.body.seller_id;
+      }
+      if (req.body.price) {
+        let priceRange = {};
+        if (req.body.price.min) {
+          priceRange.$gte = req.body.price.min;
+        }
+        if (req.body.price.max) {
+          priceRange.$lte = req.body.price.max;
+        }
+        filters.price = priceRange;
+      }
+      if (req.body.sorted) {
+        req.body.sorted.forEach((element) => {
+          switch (element.field) {
+            case 'price':
+              sortedBy.price = element.direction;
+              break;
+            case 'sales':
+              sortedBy.sales = element.direction;
+              break;
+            case 'stock':
+              sortedBy.stock = element.direction;
+              break;
+            case 'name':
+              sortedBy.name = element.direction;
+              break;
+          }
+        });
+      }
+      const products = await Product.find(filters).sort(sortedBy);
       res.send(products);
     } catch (error) {
       console.error(error);
       res.status(500).send({
         message: 'There was a problem when trying to get all products',
-        error,
-      });
-    }
-  },
-  async getByCategory(req, res) {
-    try {
-      const products = await Product.find({
-        category: req.body.category,
-      }).exec();
-      if (!products) {
-        return res.send({
-          message: 'There are no products to list in this category',
-        });
-      }
-      res.send(products);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: 'There was a problem when trying to get the products',
-        error,
-      });
-    }
-  },
-  async getByType(req, res) {
-    try {
-      const products = await Product.find({
-        type: req.body.type,
-      }).exec();
-      if (!products) {
-        return res.send({
-          message: 'There are no products to list in this type',
-        });
-      }
-      res.send(products);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: 'There was a problem when trying to get the products',
-        error,
-      });
-    }
-  },
-  async getByProtectionLevel(req, res) {
-    try {
-      const products = await Product.find({
-        protection_level: req.body.protection_level,
-      }).exec();
-      if (!products) {
-        return res.send({
-          message: 'There are no products to list with this protection level',
-        });
-      }
-      res.send(products);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: 'There was a problem when trying to get the products',
-        error,
-      });
-    }
-  },
-  async getByProductId(req, res) {
-    try {
-      const product = await Product.findById(req.params.id);
-      if (!product) {
-        return res.send({
-          message: 'The product was not found',
-        });
-      }
-      res.send(product);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: 'There was a problem when trying to get the product',
-        error,
-      });
-    }
-  },
-  async getByProductName(req, res) {
-    try {
-      const product = await Product.findOne({ name: req.body.name });
-      if (!product) {
-        return res.send({
-          message: 'The product was not found',
-        });
-      }
-      res.send(product);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: 'There was a problem when trying to get the product',
         error,
       });
     }

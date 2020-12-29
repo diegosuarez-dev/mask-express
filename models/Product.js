@@ -45,23 +45,16 @@ const ProductSchema = new mongoose.Schema(
     },
   },
   {
-    toJSON: {},
-    virtuals: true,
+    toJSON: { virtuals: true },
   }
 );
 
 ProductSchema.virtual('stock-value').get(function () {
-  const product = this;
-  return {
-    stock_value: product.price * product.stock,
-  };
+  return this.price * this.stock;
 });
 
 ProductSchema.virtual('sales-value').get(function () {
-  const product = this;
-  return {
-    sales_value: product.price * product.sold_units,
-  };
+  return this.price * this.sold_units;
 });
 
 const Product = mongoose.model('Product', ProductSchema);
