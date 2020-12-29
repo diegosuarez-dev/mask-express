@@ -4,10 +4,7 @@ const ProductController = require('../controllers/ProductController');
 const auth = require('../middlewares/auth');
 const role = require('../middlewares/role');
 
-//Get routes
 router.get('/all', ProductController.getAll);
-
-//Post, put and delete routes
 router.post(
   '/manage',
   auth.isAuth,
