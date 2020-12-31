@@ -44,6 +44,79 @@ const PurchaseController = {
       });
     }
   },
+  async userAddPurchase(req, res) {
+    try {
+      const purchase = await Purchase.create({
+        date: Date.now(),
+        user_id: req.user,
+        ...req.body,
+      });
+      res
+        .status(201)
+        .send({ message: 'Purchase succesfully created', purchase });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to confirm the purchase',
+        error,
+      });
+    }
+  },
+  async sellerAddPurchase(req, res) {
+    try {
+      const purchase = await Purchase.create({
+        date: Date.now(),
+        seller_id: req.user,
+        ...req.body,
+      });
+      res
+        .status(201)
+        .send({ message: 'Purchase succesfully created', purchase });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to confirm the purchase',
+        error,
+      });
+    }
+  },
+  async editPurchase(req, res) {
+    try {
+      const result = await Purchase.updateOne(
+        { _id: req.params.purchase_id },
+        req.body
+      );
+      const purchase = await Purchase.findById(req.params.purchase_id);
+      if (!purchase) {
+        return res.send({ message: 'Purchase not found in DB' });
+      }
+      res.send({ result, purchase });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to edit the purchase',
+        error,
+      });
+    }
+  },
+  async deletePurchase(req, res) {
+    try {
+      const purchase = await Purchase.findByIdAndDelete(req.params.purchase_id);
+      if (!purchase) {
+        return res.send({ message: 'Purchase not found in DB' });
+      }
+      res.send({
+        message: 'Purchase succesfully deleted from DB',
+        purchase,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: 'There was a problem when trying to delete the purchase',
+        error,
+      });
+    }
+  },
 };
 
 module.exports = PurchaseController;

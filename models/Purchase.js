@@ -31,7 +31,6 @@ const PurchaseSchema = new mongoose.Schema(
     },
     seller_id: {
       type: String,
-      required: true,
     },
     products: [Product],
     subtotal: Number,
@@ -43,17 +42,29 @@ const PurchaseSchema = new mongoose.Schema(
 );
 
 PurchaseSchema.pre('save', function (next) {
-  this.products.forEach((element) => {
-    this.subtotal += element.price * element.units;
-    this.total += element.price * element.units * 0.04;
+  let calculatedSubtotal = 0;
+  let calculatedTotal = 0;
+  const purchase = this;
+  purchase.products.forEach((element) => {
+    calculatedSubtotal += element.price * element.units;
+    calculatedTotal += element.price * element.units * 1.04;
   });
+  purchase.subtotal = calculatedSubtotal;
+  purchase.total = calculatedTotal;
+  next();
 });
 
 PurchaseSchema.pre('updateOne', function (next) {
+  let updatedSubtotal = 0;
+  let updatedTotal = 0;
+  const purchase = this;
   this._update.products.forEach((element) => {
-    this._update.subtotal += element._update.price * element._update.units;
-    this._update.total += element._update.price * element._update.units * 0.04;
+    updatedSubtotal += element.price * element.units;
+    updatedTotal += element.price * element.units * 1.04;
   });
+  purchase._update.subtotal = updatedSubtotal;
+  purchase._update.total = updatedTotal;
+  next();
 });
 
 const Purchase = mongoose.model('Purchase', PurchaseSchema);
