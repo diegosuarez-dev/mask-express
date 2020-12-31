@@ -8,12 +8,12 @@ const PurchaseController = {
       if (req.body.date_range) {
         let dateRange = {};
         if (req.body.date_range.from) {
-          dateRange.$gte = req.body.date_range.from;
+          dateRange.$gte = new Date(req.body.date_range.from);
         }
         if (req.body.date_range.to) {
-          dateRange.$lte = req.body.date_range.to;
+          dateRange.$lte = new Date(req.body.date_range.to);
         }
-        filters.date_range = dateRange;
+        filters.date = dateRange;
       }
       if (req.body.user_id) {
         filters.user_id = req.body.user_id;
@@ -22,7 +22,7 @@ const PurchaseController = {
         filters.seller_id = req.body.seller_id;
       }
       if (req.body.by_product) {
-        filters.products.name = { $regex: req.body.by_product };
+        filters['products.name'] = { $regex: req.body.by_product };
       }
       if (req.body.total) {
         let totalRange = {};
@@ -34,6 +34,22 @@ const PurchaseController = {
         }
         filters.total = totalRange;
       }
+      if (req.body.sorted) {
+        req.body.sorted.forEach((element) => {
+          switch (element.field) {
+            case 'date':
+              sortedBy.date = element.direction;
+              break;
+            case 'user_id':
+              sortedBy.user_id = element.direction;
+              break;
+            case 'total':
+              sortedBy.total = element.direction;
+              break;
+          }
+        });
+      }
+      console.log(sortedBy);
       const purchases = await Purchase.find(filters).sort(sortedBy);
       res.send(purchases);
     } catch (error) {
@@ -47,7 +63,7 @@ const PurchaseController = {
   async userAddPurchase(req, res) {
     try {
       const purchase = await Purchase.create({
-        date: Date.now(),
+        date: new Date(),
         user_id: req.user,
         ...req.body,
       });
@@ -65,7 +81,7 @@ const PurchaseController = {
   async sellerAddPurchase(req, res) {
     try {
       const purchase = await Purchase.create({
-        date: Date.now(),
+        date: new Date(),
         seller_id: req.user,
         ...req.body,
       });
