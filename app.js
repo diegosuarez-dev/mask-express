@@ -4,6 +4,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var swaggerJSDoc = require('swagger-jsdoc');
+var swaggerUI = require('swagger-ui-express');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,10 +24,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const options = {
+  swaggerDefinition: {
+    info: {
+      title: 'Mask Express API Rest Documentation',
+      version: '1.0.0',
+      description:
+        'Here you can find all info related to each endpoint (parameters, responses, ...) and even try them!',
+    },
+  },
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpecification = swaggerJSDoc(options);
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/purchases', purchasesRouter);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecification));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
