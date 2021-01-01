@@ -5,7 +5,7 @@ const auth = require('../middlewares/auth');
 const role = require('../middlewares/role');
 
 router.get('/all', auth.isAuth, role.isSeller, PurchaseController.getAll);
-router.get('/mypurchases', auth.isAuth); //TODO: User can get his/her purchases
+router.get('/mypurchases', auth.isAuth, PurchaseController.getMyPurchases);
 router.post('/mypurchases', auth.isAuth, PurchaseController.userAddPurchase); //User can buy if logged in
 router.post(
   '/',

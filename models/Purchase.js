@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Address = require('./Address');
+const User = require('./User');
 
 const Product = new mongoose.Schema({
   id: {
@@ -35,13 +37,16 @@ const PurchaseSchema = new mongoose.Schema(
     products: [Product],
     subtotal: Number,
     total: Number,
+    deliveryAddress: {
+      type: Address,
+    },
   },
   {
     toJSON: { virtuals: true },
   }
 );
 
-PurchaseSchema.pre('save', function (next) {
+PurchaseSchema.pre('save', async function (next) {
   let calculatedSubtotal = 0;
   let calculatedTotal = 0;
   const purchase = this;
@@ -51,6 +56,11 @@ PurchaseSchema.pre('save', function (next) {
   });
   purchase.subtotal = calculatedSubtotal;
   purchase.total = calculatedTotal;
+  //If no delivery address is sent, user address is default value
+  if (!purchase.deliveryAddress) {
+    const user = await User.findById(purchase.user_id);
+    purchase.deliveryAddress = user.address;
+  }
   next();
 });
 

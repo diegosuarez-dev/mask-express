@@ -1,10 +1,21 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const Address = require('./Address');
 
 const UserSchema = new mongoose.Schema(
   {
-    name: String,
-    country: String,
+    name: {
+      type: String,
+      required: true,
+    },
+    surname: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: Address,
+      required: true,
+    },
     phone: {
       type: Number,
       minlength: 9,
