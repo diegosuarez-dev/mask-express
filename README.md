@@ -1,11 +1,11 @@
 #### Tabla de contenidos
 
-[Mask Express API](#Mask-Express-API)
-[Documentación de la API](##Documentación-de-la-API)
-[Requisitos mínimos](##Requisitos-mínimos)
-[Fase actual del desarrollo](##Fase-actual-del-desarrollo:-Desarrollo-finalizado-🚀)
-[Construido con](##Construido-con-🛠️)
-[Scripts disponibles (funcionamiento)](<##Scripts-Disponibles-(funcionamiento)>)
+[Mask Express API](#Mask-Express-API)<br />
+[Documentación de la API](##Documentación-de-la-API)<br />
+[Requisitos mínimos](##Requisitos-mínimos)<br />
+[Fase actual del desarrollo](##Fase-actual-del-desarrollo:-Desarrollo-finalizado-🚀)<br />
+[Construido con](##Construido-con-🛠️)<br />
+[Scripts disponibles (funcionamiento)](<##Scripts-Disponibles-(funcionamiento)>)<br />
 
 # Mask Express API
 
