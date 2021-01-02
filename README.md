@@ -3,8 +3,8 @@
 [Mask Express API](#Mask-Express-API)<br />
 [Documentación de la API](#Documentación-de-la-API)<br />
 [Requisitos mínimos](#Requisitos-mínimos)<br />
-[Fase actual del desarrollo](#Fase-actual-del-desarrollo:-Desarrollo-finalizado-🚀)<br />
-[Construido con](#Construido-con-🛠️)<br />
+[Fase actual del desarrollo](#Fase-actual-del-desarrollo)<br />
+[Construido con](#Construido-con)<br />
 [Scripts disponibles (funcionamiento)](<#Scripts-Disponibles-(funcionamiento)>)<br />
 
 # Mask Express API
