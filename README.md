@@ -43,11 +43,11 @@ Feature 3: Gestión Compras
 - Extra points: endpoint de compras por usuario (modo factura).
 - Requisitos extra: endpoint modificación datos factura (vendedor).
 
-## Fase actual del desarrollo: Desarrollo finalizado 🚀
+## Fase actual del desarrollo
 
-La API cubre los requisitos mínimos, los extra y alguno adicional. Tanto para productos como para compras, todos los métodos de búsqueda tienen filtros opcionales, cubriendo así los requisitos de "get all" y de filtrado y ordenado por parámetros.
+Desarrollo finalizado. La API cubre los requisitos mínimos, los extra y alguno adicional. Tanto para productos como para compras, todos los métodos de búsqueda tienen filtros opcionales, cubriendo así los requisitos de "get all" y de filtrado y ordenado por parámetros.
 
-## Construido con 🛠️
+## Construido con
 
 NodeJS, Express, Mongoose, Git, BcryptJS, JWT-simple, MomentJS.
 
