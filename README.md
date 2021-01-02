@@ -1,7 +1,7 @@
 #### Tabla de contenidos
 
 [Mask Express API](#Mask-Express-API)
-[Documentación de la API](#Documentación-de-la-API)
+[Documentación de la API](##Documentación-de-la-API)
 [Requisitos mínimos](##Requisitos-mínimos)
 [Fase actual del desarrollo](##Fase-actual-del-desarrollo:-Desarrollo-finalizado-🚀)
 [Construido con](##Construido-con-🛠️)
