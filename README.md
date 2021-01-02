@@ -5,7 +5,7 @@
 [Requisitos mínimos](#Requisitos-mínimos)<br />
 [Fase actual del desarrollo](#Fase-actual-del-desarrollo)<br />
 [Construido con](#Construido-con)<br />
-[Scripts disponibles (funcionamiento)](<#Scripts-Disponibles-(funcionamiento)>)<br />
+[Scripts disponibles (funcionamiento)](#Scripts-Disponibles)<br />
 
 # Mask Express API
 
@@ -53,7 +53,7 @@ NodeJS, Express, Mongoose, Git, BcryptJS, JWT-simple, MomentJS.
 
 [Ir al inicio](#Tabla-de-contenidos)
 
-## Scripts Disponibles (funcionamiento)
+## Scripts Disponibles
 
 En el directorio del proyecto puedes ejecutar:
 
