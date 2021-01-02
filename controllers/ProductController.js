@@ -81,7 +81,9 @@ const ProductController = {
   },
   async updateProduct(req, res) {
     try {
-      const result = await Product.updateOne({ _id: req.body._id }, req.body);
+      const result = await Product.updateOne({ _id: req.body._id }, req.body, {
+        runValidators: true,
+      });
       const product = await Product.findById(req.body._id);
       if (!product) {
         return res.send({ message: 'Product not found in DB' });

@@ -19,7 +19,9 @@ const UserController = {
   },
   async update(req, res) {
     try {
-      const result = await User.updateOne({ _id: req.params.id }, req.body);
+      const result = await User.updateOne({ _id: req.params.id }, req.body, {
+        runValidators: true,
+      });
       const user = await User.findById(req.params.id);
       if (!user) {
         return res.send({ message: 'User not found in DB' });
@@ -140,8 +142,11 @@ const UserController = {
   },
   async updateProfile(req, res) {
     try {
-      const result = await User.updateOne({ _id: req.user }, req.body);
-      res.send(result);
+      const result = await User.updateOne({ _id: req.user }, req.body, {
+        runValidators: true,
+      });
+      const user = await User.findById(req.user);
+      res.send({ result, user });
     } catch (error) {
       console.error(error);
       res.status(500).send({

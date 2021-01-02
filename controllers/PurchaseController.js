@@ -120,9 +120,9 @@ const PurchaseController = {
   async userAddPurchase(req, res) {
     try {
       const purchase = await Purchase.create({
+        ...req.body,
         date: new Date(),
         user_id: req.user,
-        ...req.body,
       });
       res
         .status(201)
@@ -138,9 +138,9 @@ const PurchaseController = {
   async sellerAddPurchase(req, res) {
     try {
       const purchase = await Purchase.create({
+        ...req.body,
         date: new Date(),
         seller_id: req.user,
-        ...req.body,
       });
       res
         .status(201)
@@ -155,9 +155,14 @@ const PurchaseController = {
   },
   async editPurchase(req, res) {
     try {
+      let update = req.body;
+      if (req.body.date) {
+        update.date = moment(req.body.date);
+      }
       const result = await Purchase.updateOne(
         { _id: req.params.purchase_id },
-        req.body
+        update,
+        { runValidators: true }
       );
       const purchase = await Purchase.findById(req.params.purchase_id);
       if (!purchase) {
