@@ -82,7 +82,11 @@ const UserController = {
   },
   async register(req, res) {
     try {
-      const user = await User.create(req.body);
+      let payload = req.body;
+      if (payload.role) {
+        delete payload.role;
+      }
+      const user = await User.create(payload);
       res.status(201).send({
         message: 'User succesfully created',
         token: tokenHandler.createToken(user),
@@ -142,7 +146,11 @@ const UserController = {
   },
   async updateProfile(req, res) {
     try {
-      const result = await User.updateOne({ _id: req.user }, req.body, {
+      let payload = req.body;
+      if (payload.role) {
+        delete payload.role;
+      }
+      const result = await User.updateOne({ _id: req.user }, payload, {
         runValidators: true,
       });
       const user = await User.findById(req.user);
