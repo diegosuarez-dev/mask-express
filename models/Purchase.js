@@ -34,7 +34,11 @@ const PurchaseSchema = new mongoose.Schema(
     seller_id: {
       type: String,
     },
-    products: [Product],
+    products: {
+      type: [Product],
+      required: true,
+      default: undefined,
+    },
     subtotal: Number,
     total: Number,
     deliveryAddress: {
